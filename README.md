@@ -1,6 +1,3 @@
-# Personalised-RIHT-risk-assessment-software-
-The personalised RIHT risk assessment software was designed to support clinically usable patient-level assessment from routine radiotherapy planning data.
-
 # RIHT Single-Patient Demo Toolkit
 
 This repository contains a lightweight research demo for patient-level radiation-induced hypothyroidism (RIHT) risk reporting after head-and-neck radiotherapy.
@@ -21,13 +18,11 @@ model_assets_parameters/
   Lightweight Cox model parameters used by the demo.
 
 autoseg/
-  Optional nnU-Net wrapper scripts for thyroid auto-segmentation.
+  Optional helper files for thyroid auto-segmentation when a local
+  nnU-Net environment and checkpoint are available.
 
 autoseg_model/
   Local model folder layout for the optional thyroid segmentation model.
-
-autoseg_model_stub/
-  Public-safe model layout stub. The large nnU-Net checkpoint is not included.
 
 examples/
   Example command and a rendered HTML sample report.
@@ -47,7 +42,7 @@ build_launcher.ps1
 - Patient CT images, dose maps, thyroid masks, or target masks.
 - Protected health information.
 - API keys or remote service credentials.
-- The large nnU-Net thyroid segmentation checkpoint. The expected `checkpoint_best.pth` is approximately 815 MB and should be distributed through Git LFS, a release asset, Zenodo/OSF, or institutional storage.
+- The large nnU-Net thyroid segmentation checkpoint. The expected `checkpoint_best.pth` is approximately 815 MB and is distributed separately.
 
 The demo can still run without the nnU-Net checkpoint if a thyroid mask is provided in the case folder.
 
@@ -71,11 +66,34 @@ matplotlib
 PyRadiomics
 ```
 
-If you want to use automatic thyroid segmentation, install and configure nnU-Net separately. See:
+If you want to use automatic thyroid segmentation, install and configure nnU-Net separately, then download the model checkpoint as described below.
 
-- `autoseg/docs/segmentation_model_dataset1102_details.md`
-- `autoseg/scripts/run_thyroid_segmentation_pipeline.ps1`
-- `autoseg_model_stub/README.md`
+## Auto-Segmentation Checkpoint
+
+Automatic thyroid segmentation is optional. It is only needed when the case folder does not already contain a thyroid mask.
+
+The nnU-Net checkpoint is not stored in this repository because it is too large for normal GitHub tracking. Download it from:
+
+```text
+Baidu Cloud: <BAIDU_CLOUD_LINK_TO_BE_ADDED>
+Extraction code: <CODE_TO_BE_ADDED>
+```
+
+After downloading, place `checkpoint_best.pth` in this folder layout:
+
+```text
+autoseg_model/
+  Dataset1102_ThyroidSegmentation/
+    nnUNetTrainer__nnUNetResEncUNetMPlans__3d_fullres/
+      dataset.json
+      plans.json
+      fold_0/
+        checkpoint_best.pth
+```
+
+If the repository package does not include `dataset.json` or `plans.json`, keep them beside the checkpoint in the same layout when distributing the model package.
+
+The demo can run without this checkpoint if you provide a thyroid mask manually with `--thyroid-mask-path` or place `Thyroid_mask.mha` / `thyroid_mask.mha` inside the case folder.
 
 ## Input Case Folder
 
@@ -148,7 +166,7 @@ python -m riht_demo.cli predict `
 
 ## Run With nnU-Net Auto-Segmentation
 
-When the nnU-Net model and environment are configured locally:
+When the nnU-Net environment is configured locally and `checkpoint_best.pth` has been placed under `.\autoseg_model`, run:
 
 ```powershell
 python -m riht_demo.cli predict `
@@ -156,12 +174,13 @@ python -m riht_demo.cli predict `
   --age 58 `
   --n-stage 2 `
   --asset-dir ".\model_assets_parameters" `
-  --autoseg-script ".\autoseg\scripts\run_thyroid_segmentation_pipeline.ps1" `
   --autoseg-model-folder ".\autoseg_model" `
   --out-dir "D:\riht_outputs\case001"
 ```
 
 Use `--force-auto-segment-thyroid` to run auto-segmentation even when a thyroid mask already exists.
+
+If your package includes a custom segmentation PowerShell script, pass it with `--autoseg-script`. If not, configure your local nnU-Net command wrapper before using auto-segmentation.
 
 ## Main CLI Arguments
 
@@ -175,7 +194,7 @@ Use `--force-auto-segment-thyroid` to run auto-segmentation even when a thyroid 
 | `--thyroid-mask-path` | no | Explicit thyroid mask path. |
 | `--no-auto-segment-thyroid` | no | Disable auto-segmentation if no thyroid mask exists. |
 | `--force-auto-segment-thyroid` | no | Run auto-segmentation even when a mask exists. |
-| `--autoseg-script` | no | Path to the thyroid segmentation PowerShell pipeline. |
+| `--autoseg-script` | no | Optional path to a local thyroid segmentation wrapper script. |
 | `--autoseg-model-folder` | no | Path to the local Dataset1102 nnU-Net model folder. |
 | `--dose-scale-to-cgy` | no | Dose scaling override. If omitted, Gy-like dose maps are multiplied by 100. |
 | `--ct-window-level` | no | CT window level for the report image. Default: 50. |
@@ -254,12 +273,11 @@ Near-threshold cases can show small classification differences when image-derive
 Before publishing:
 
 1. Confirm that no patient CT, dose, mask, or PHI files are included.
-2. Keep the nnU-Net checkpoint outside normal Git history unless using Git LFS or release assets.
+2. Keep the nnU-Net checkpoint outside normal Git history; provide the Baidu Cloud link and extraction code in the checkpoint section above.
 3. Prefer relative example paths in documentation.
 4. Keep `model_assets_parameters/` with the demo if the prediction command is expected to run out of the box.
-5. Document how external users should obtain the optional auto-segmentation checkpoint.
+5. Confirm the downloaded checkpoint lands at `autoseg_model/Dataset1102_ThyroidSegmentation/nnUNetTrainer__nnUNetResEncUNetMPlans__3d_fullres/fold_0/checkpoint_best.pth`.
 
 ## Disclaimer
 
 This software is provided for research demonstration, reproducibility, and counterfactual audit. It is not a certified medical device, not a radiotherapy planning optimizer, and not a substitute for clinician review.
-
