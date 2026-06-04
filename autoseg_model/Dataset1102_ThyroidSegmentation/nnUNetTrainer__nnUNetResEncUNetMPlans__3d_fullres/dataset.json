@@ -1,0 +1,18 @@
+{
+  "description": "Knee Segmentation",
+  "labels": {
+    "background": 0,
+    "thyroid": 1
+  },
+  "licence": "Hebut AI",
+  "name": "Knee",
+  "numTraining": 446,
+  "numTest": 0,
+  "reference": "oai-zib",
+  "release": "11/2021",
+  "tensorImageSize": "3D",
+  "file_ending": ".nii.gz",
+  "channel_names": {
+    "0": "CT"
+  }
+}
