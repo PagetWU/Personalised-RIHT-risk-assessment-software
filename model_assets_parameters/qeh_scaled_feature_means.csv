@@ -1,0 +1,11 @@
+﻿feature,qeh_scaled_mean
+radiomics_log-sigma-3-mm-3D_glrlm_GrayLevelNonUniformity,0.1481315417634114
+radiomics_original_gldm_GrayLevelNonUniformity,0.14299051520847
+radiomics_wavelet-LHL_ngtdm_Strength,0.2447939391253677
+dosiomics_original_shape_MeshVolume,0.2080216826713961
+dosiomics_wavelet-HLH_gldm_GrayLevelNonUniformity,0.0326539132866531
+dosiomics_wavelet-LLH_gldm_GrayLevelNonUniformity,0.0610609677447772
+dosiomics_wavelet-HLL_ngtdm_Coarseness,0.2208228599492326
+Age,0.5481335181859239
+N-stage,0.5626535626535627
+Thyroid Dmean (Gy),0.7415145544444021

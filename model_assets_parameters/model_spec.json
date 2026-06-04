@@ -1,0 +1,29 @@
+{
+  "model_id": "O3_EXTSMALL_0878_NOVOLUME",
+  "model_label": "R3 + D4 + C + Dmean only",
+  "source_data": "F:\\hypothyroidism_final_work\\work_newline_2026.5\\codings\\codings\\1_preprocessing_dealing_index\\1_data_cleaning\\origin_0_3",
+  "output_dir": "C:\\Users\\Jiaming\\Documents\\hypothyroidism\\original_work_2025_patched\\origin_0_3_external_mean_focused_grid_small\\export_O3_EXTSMALL_0878_R3D4_C_DmeanOnly",
+  "removed_feature": "Thyroid volume (cc)",
+  "feature_order": [
+    "radiomics_log-sigma-3-mm-3D_glrlm_GrayLevelNonUniformity",
+    "radiomics_original_gldm_GrayLevelNonUniformity",
+    "radiomics_wavelet-LHL_ngtdm_Strength",
+    "dosiomics_original_shape_MeshVolume",
+    "dosiomics_wavelet-HLH_gldm_GrayLevelNonUniformity",
+    "dosiomics_wavelet-LLH_gldm_GrayLevelNonUniformity",
+    "dosiomics_wavelet-HLL_ngtdm_Coarseness",
+    "Age",
+    "N-stage",
+    "Thyroid Dmean (Gy)"
+  ],
+  "clinical_features": [
+    "Age",
+    "N-stage"
+  ],
+  "dvh_features": [
+    "Thyroid Dmean (Gy)"
+  ],
+  "cox_penalizer": 0.1,
+  "l1_ratio": 0.0,
+  "validation": "QEH 5-fold validation; PWH/QMH/XJH averaged across fold-trained QEH models."
+}
