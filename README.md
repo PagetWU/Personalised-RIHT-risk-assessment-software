@@ -220,21 +220,6 @@ A public-safe rendered example is available at:
 examples/QEH_499_html_sample/RIHT_demo_report.html
 ```
 
-## Model Defaults
-
-Current packaged Cox model:
-
-- Model id: `O3_EXTSMALL_0878_NOVOLUME`
-- Model label: `R3 + D4 + C + Dmean only`
-- Main clinical inputs: age and N-stage
-- Main dose input: thyroid Dmean
-- Radiomics/dosiomics features: loaded from `model_assets_parameters/model_spec.json`
-
-Display defaults:
-
-- CT window: WL 50 / WW 400
-- Dose display range: 0-70 Gy in the HTML report
-- Hotspot threshold: 40 Gy, configurable with `--hotspot-threshold-gy`
 
 ## Optional Windows Launcher
 
