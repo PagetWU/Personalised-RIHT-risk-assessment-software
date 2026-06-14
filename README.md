@@ -37,14 +37,6 @@ build_launcher.ps1
   Rebuilds the Windows launcher locally.
 ```
 
-## What Is Not Included
-
-- Patient CT images, dose maps, thyroid masks, or target masks.
-- Protected health information.
-- API keys or remote service credentials.
-- The large nnU-Net thyroid segmentation checkpoint. The expected `checkpoint_best.pth` is approximately 815 MB and is distributed separately.
-
-The demo can still run without the nnU-Net checkpoint if a thyroid mask is provided in the case folder.
 
 ## Installation
 
@@ -68,20 +60,25 @@ PyRadiomics
 
 If you want to use automatic thyroid segmentation, install and configure nnU-Net separately, then download the model checkpoint as described below.
 
-## Auto-Segmentation Checkpoint
+## Model Assets and Auto-Segmentation Checkpoint
 
-Automatic thyroid segmentation is optional. It is only needed when the case folder does not already contain a thyroid mask.
+The RIHT Cox prediction model parameters and the optional nnU-Net thyroid auto-segmentation checkpoint are distributed as a separate model-asset package because the segmentation checkpoint is too large for normal GitHub tracking.
 
-The nnU-Net checkpoint is not stored in this repository because it is too large for normal GitHub tracking. Download it from:
+Download the complete model-asset package from Google Drive:
 
 ```text
-Baidu Cloud: <BAIDU_CLOUD_LINK_TO_BE_ADDED>
-Extraction code: <CODE_TO_BE_ADDED>
-```
+https://drive.google.com/file/d/11w32m51_bM2XIsvkfD604FJQ0GFpoJRB/view?usp=drive_link
 
 After downloading, place `checkpoint_best.pth` in this folder layout:
 
 ```text
+model_assets_parameters/
+  full_qeh_model_coefficients.csv
+  full_qeh_scaler_parameters.csv
+  model_spec.json
+  qeh_breslow_baseline_hazard.csv
+  qeh_scaled_feature_means.csv
+
 autoseg_model/
   Dataset1102_ThyroidSegmentation/
     nnUNetTrainer__nnUNetResEncUNetMPlans__3d_fullres/
@@ -89,7 +86,6 @@ autoseg_model/
       plans.json
       fold_0/
         checkpoint_best.pth
-```
 
 If the repository package does not include `dataset.json` or `plans.json`, keep them beside the checkpoint in the same layout when distributing the model package.
 
